@@ -1,2 +1,5 @@
 plugins/user/ZMachine/files/saves/*.sav
-
+update_bot.sh
+restart_bot.sh
+nimda.conf
+nohup.out
