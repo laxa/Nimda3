@@ -5,8 +5,8 @@ class Plugin_DDracepro extends Plugin {
   public $interval = 60;
   public $triggers = array('!ddracepro');
   public $enabledByDefault = false;
-  
   public $helpText = 'Checks periodically if new records on DDracepro\' servers are made and prints them in the channel.';
+  public $hideFromHelp = true;
   
   function onLoad() {
     $latest = $this->getVar('latest');
