@@ -3,7 +3,7 @@
 class Plugin_DDNetPeak extends Plugin
 {
 	public $triggers = array('!ddnetpeak');
-	public $interval = 60;
+	public $interval = 120;
 	public $helpText = 'Prints the current ddnet peak and when it was achieved.';
 	public $helpCategory = 'Teeworlds';
 
