@@ -34,6 +34,7 @@ class Plugin_DDNetMapRelease extends Plugin
 	      $this->sendToEnabledChannels($format);
 	    }
 	  $this->last = $array[1][0];
+	  $this->saveVar('ddnetlatestmaprelease', $this->last);
 	}
 
 	function onUnload()
