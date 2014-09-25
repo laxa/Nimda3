@@ -34,9 +34,7 @@ class Plugin_DDNetStatus extends Plugin
 		  if ($previous["name"] === $new["name"] && $previous["online4"] != $new["online4"])
 		    {
 		      $updown = $new["online4"] === true ? "went back online!" : "went down!";
-		      var_dump($updown);
 		      $msg = "[DDNet]\x02".$new["name"]."\x02 ".$updown;
-		      var_dump($msg);
 		      $this->sendToEnabledChannels($msg);
 		    }
 		}
@@ -46,9 +44,9 @@ class Plugin_DDNetStatus extends Plugin
 	      $onlineprevious = array();
 	      $onlinenew = array();
 	      foreach ($status["servers"] as $new)
-		$onlinenew[] .= $new["name"];
+		$onlinenew[] = $new["name"];
 	      foreach ($this->status["servers"] as $previous)
-		$onlineprevious[] .= $previous["name"];
+		$onlineprevious[] = $previous["name"];
 	      foreach ($onlinenew as $name)
 		{
 		  if (!in_array($name, $onlineprevious))
