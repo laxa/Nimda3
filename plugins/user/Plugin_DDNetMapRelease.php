@@ -28,8 +28,8 @@ class Plugin_DDNetMapRelease extends Plugin
 	      $released = $array[1][$i];
 	      $url = 'http://ddnet.tw'.$array[2][$i];
 	      $difficulty = $array[3][$i];
-	      $map = $array[4][$i];
-	      $mapper = $array[6][$i];
+	      $map = html_entity_decode($array[4][$i]);
+	      $mapper = html_entity_decode($array[6][$i]);
 	      $format = "\x02".$map."\x02 by \x02".$mapper."\x02 just released on ".$difficulty." at ".$released." : ".$url;
 	      $this->sendToEnabledChannels($format);
 	    }
