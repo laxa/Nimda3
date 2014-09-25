@@ -29,16 +29,14 @@ class Plugin_DDNetMapRelease extends Plugin
 	      $url = 'http://ddnet.tw'.$array[2][$i];
 	      $difficulty = $array[3][$i];
 	      $map = html_entity_decode($array[4][$i]);
-	      $mapper = html_entity_decode($array[6][$i]);
+	      if (strlen($array[6][$i]) == 0)
+		$mapper = "Unknown";
+	      else
+		$mapper = html_entity_decode($array[6][$i]);
 	      $format = "\x02".$map."\x02 by \x02".$mapper."\x02 just released on ".$difficulty." at ".$released." : ".$url;
 	      $this->sendToEnabledChannels($format);
 	    }
 	  $this->last = $array[1][0];
-	  $this->saveVar('ddnetlatestmaprelease', $this->last);
-	}
-
-	function onUnload()
-	{
 	  $this->saveVar('ddnetlatestmaprelease', $this->last);
 	}
 }
