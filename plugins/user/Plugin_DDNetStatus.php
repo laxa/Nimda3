@@ -3,7 +3,7 @@
 class Plugin_DDNetStatus extends Plugin
 {
 	public $triggers = array('!ddnetstatus');
-	public $interval = 300;
+	public $interval = 60;
 	public $enabledByDefault = false;
 	public $hideFromHelp = true;
 	private $status = array();
@@ -12,50 +12,52 @@ class Plugin_DDNetStatus extends Plugin
 	{
 	  $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
 	  if ($page == false || strlen($page) === 0) return;
-	  $this->status = json_decode($page, true);
+	  $this->status = $this->buildArray(json_decode($page, true));
+	}
+
+	private function buildArray($json)
+	{
+	  $array = array();
+	  foreach ($json['servers'] as $server)
+	    $array[$server['name']] = $server['online4'];
+	  return $array;
 	}
 
 	function onInterval()
 	{
-	  if (!isset($this->status))
+	  if (sizeof($this->status) === 0)
 	    {
 	      $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
 	      if ($page == false || strlen($page) === 0) return;
-	      $this->status = json_decode($page, true);
+	      $this->status = $this->buildArray(json_decode($page, true));
 	      return;
 	    }
 	  $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
 	  if ($page == false || strlen($page) === 0) return;
-	  $status = json_decode($page, true);
-	  foreach ($status["servers"] as $new) // check for status change
+	  $status = $this->buildArray(json_decode($page, true));
+	  foreach ($status as $key => $online)
 	    {
-	      foreach ($this->status["servers"] as $previous)
+	      foreach ($this->status as $key2 => $online2)
 		{
-		  if ($previous["name"] === $new["name"] && $previous["online4"] != $new["online4"])
+		  if ($key === $key2 && $online != $online2)
 		    {
-		      $updown = $new["online4"] === true ? "went back online!" : "went down!";
-		      $msg = "[DDNet]\x02".$new["name"]."\x02 ".$updown;
+		      $updown = $online === true ? 'went back online!' : 'went down!';
+		      $msg = "[DDNet]\x02$key\x02 ".$updown;
 		      $this->sendToEnabledChannels($msg);
 		    }
 		}
 	    }
-	  if (count($status["servers"]) != count($this->status["servers"])) // check if new or deleted server
+	  if (sizeof($status) != sizeof($this->status))
 	    {
-	      $onlineprevious = array();
-	      $onlinenew = array();
-	      foreach ($status["servers"] as $new)
-		$onlinenew[] = $new["name"];
-	      foreach ($this->status["servers"] as $previous)
-		$onlineprevious[] = $previous["name"];
-	      foreach ($onlinenew as $name)
+	      foreach ($status as $key => $value)
 		{
-		  if (!in_array($name, $onlineprevious))
-		    $this->sendToEnabledChannels("[DDNet]New server detected : \x02".$name."\x02!");
+		  if (!isset($this->status[$key]))
+		    $this->sendToEnabledChannels("[DDNet]New server detected : \x02$key\x02!");
 		}
-	      foreach ($onlineprevious as $name)
+	      foreach ($this->status as $key => $value)
 		{
-		  if (!in_array($name, $onlinenew))
-		    $this->sendToEnabledChannels("[DDNet]Server was removed : \x02".$name."\x02!");
+		  if (!isset($status[$key]))
+		    $this->sendToEnabledChannels("[DDNet]Server was removed : \x02$key\x02!");
 		}
 	    }
 	  $this->status = $status;
