@@ -37,14 +37,11 @@ class Plugin_DDNetStatus extends Plugin
 	  $status = $this->buildArray(json_decode($page, true));
 	  foreach ($status as $key => $online)
 	    {
-	      foreach ($this->status as $key2 => $online2)
+	      if (isset($this->status[$key]) && $this->status[$key] != $online)
 		{
-		  if ($key === $key2 && $online != $online2)
-		    {
-		      $updown = $online === true ? 'went back online!' : 'went down!';
-		      $msg = "[DDNet]\x02$key\x02 ".$updown;
-		      $this->sendToEnabledChannels($msg);
-		    }
+		  $updown = $online === true ? 'went back online!' : 'went down!';
+		  $msg = "[DDNet]\x02$key\x02 ".$updown;
+		  $this->sendToEnabledChannels($msg);
 		}
 	    }
 	  if (sizeof($status) != sizeof($this->status))
