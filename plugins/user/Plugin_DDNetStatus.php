@@ -40,7 +40,7 @@ class Plugin_DDNetStatus extends Plugin
 	      if (isset($this->status[$key]) && $this->status[$key] != $online)
 		{
 		  $updown = $online === true ? 'went back online!' : 'went down!';
-		  $msg = "[DDNet]\x02$key\x02 ".$updown;
+		  $msg = "\x02$key\x02 ".$updown;
 		  $this->sendToEnabledChannels($msg);
 		}
 	    }
@@ -49,12 +49,12 @@ class Plugin_DDNetStatus extends Plugin
 	      foreach ($status as $key => $value)
 		{
 		  if (!isset($this->status[$key]))
-		    $this->sendToEnabledChannels("[DDNet]New server detected : \x02$key\x02!");
+		    $this->sendToEnabledChannels("New server detected : \x02$key\x02!");
 		}
 	      foreach ($this->status as $key => $value)
 		{
 		  if (!isset($status[$key]))
-		    $this->sendToEnabledChannels("[DDNet]Server was removed : \x02$key\x02!");
+		    $this->sendToEnabledChannels("Server was removed : \x02$key\x02!");
 		}
 	    }
 	  $this->status = $status;
