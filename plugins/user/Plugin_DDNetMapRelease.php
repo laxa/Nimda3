@@ -26,14 +26,13 @@ class Plugin_DDNetMapRelease extends Plugin
 	    {
 	      if (strtotime($this->last) >= strtotime($array[1][$i])) break;
 	      $released = $array[1][$i];
-	      $url = 'http://ddnet.tw'.$array[2][$i];
 	      $difficulty = $array[3][$i];
 	      $map = html_entity_decode($array[4][$i]);
-	      if (strlen($array[6][$i]) == 0)
+	      if (strlen($array[6][$i]) === 0)
 		$mapper = "Unknown";
 	      else
 		$mapper = html_entity_decode($array[6][$i]);
-	      $format = "\x02".$map."\x02 by \x02".$mapper."\x02 just released on ".$difficulty." at ".$released." : ".$url;
+	      $format = "\x02$map\x02 by \x02$mapper\x02 just released on $difficulty at $released";
 	      $this->sendToEnabledChannels($format);
 	    }
 	  $this->last = $array[1][0];
