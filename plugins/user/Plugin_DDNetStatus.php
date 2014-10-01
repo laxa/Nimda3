@@ -7,11 +7,16 @@ class Plugin_DDNetStatus extends Plugin
 	public $enabledByDefault = false;
 	public $hideFromHelp = true;
 	private $status = array();
+	private $mainserverdown = false;
 
 	function onLoad()
 	{
-	  $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
-	  if ($page == false || strlen($page) === 0) return;
+	  $page = $this->getStatus();
+	  if ($page === false || strlen($page) === 0)
+	    {
+	      $this->mainserverdown = true;
+	      return;
+	    }
 	  $this->status = $this->buildArray(json_decode($page, true));
 	}
 
@@ -23,17 +28,37 @@ class Plugin_DDNetStatus extends Plugin
 	  return $array;
 	}
 
+	private function getStatus()
+	{
+	  return libHTTP::GET('http://ddnet.tw/status/json/stats.json');
+	}
+
 	function onInterval()
 	{
 	  if (sizeof($this->status) === 0)
 	    {
-	      $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
-	      if ($page == false || strlen($page) === 0) return;
+	      $page = $this->getStatus();
+	      if ($page === false || strlen($page) === 0) return;
+	      $this->sendToEnabledChannels("\x02DDNet FRA\x02 went back online!");
+	      $this->mainserverdown = false;
 	      $this->status = $this->buildArray(json_decode($page, true));
 	      return;
 	    }
-	  $page = libHTTP::GET('http://ddnet.tw/status/json/stats.json');
-	  if ($page == false || strlen($page) === 0) return;
+	  $page = $this->getStatus();
+	  if ($page === false || strlen($page) === 0)
+	    {
+	      if (!$this->mainserverdown)
+		{
+		  $this->sendToEnabledChannels("\x02DDNet FRA\x02 went down!");
+		  $this->mainserverdown = true;
+		}
+	      return;
+	    }
+	  if ($this->mainserverdown)
+	    {	      
+	      $this->sendToEnabledChannels("\x02DDNet FRA\x02 went back online!");
+	      $this->mainserverdown = false;
+	    }
 	  $status = $this->buildArray(json_decode($page, true));
 	  foreach ($status as $key => $online)
 	    {
