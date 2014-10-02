@@ -58,6 +58,7 @@ class Plugin_DDNetStatus extends Plugin
 	    {	      
 	      $this->sendToEnabledChannels("\x02DDNet FRA\x02 went back online!");
 	      $this->mainserverdown = false;
+	      return;
 	    }
 	  $status = $this->buildArray(json_decode($page, true));
 	  foreach ($status as $key => $online)
