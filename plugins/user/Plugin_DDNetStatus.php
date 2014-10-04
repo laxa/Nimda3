@@ -24,7 +24,10 @@ class Plugin_DDNetStatus extends Plugin
 	{
 	  $array = array();
 	  foreach ($json['servers'] as $server)
-	    $array[$server['name']] = $server['online4'];
+	    {
+	      if (array_key_exists($server['name'], $array)) continue;
+	      $array[$server['name']] = $server['online4'];
+	    }
 	  return $array;
 	}
 
@@ -66,8 +69,7 @@ class Plugin_DDNetStatus extends Plugin
 	      if (isset($this->status[$key]) && $this->status[$key] != $online)
 		{
 		  $updown = $online === true ? 'went back online!' : 'went down!';
-		  $msg = "\x02$key\x02 ".$updown;
-		  $this->sendToEnabledChannels($msg);
+		  $this->sendToEnabledChannels("\x02$key\x02 $updown");
 		}
 	    }
 	  if (sizeof($status) != sizeof($this->status))
