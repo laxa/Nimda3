@@ -1,4 +1,6 @@
 plugins/user/ZMachine/files/saves/*.sav
+plugins/user/Plugin_ddracepro.php
+plugins/user/Plugin_DDNetStatus.php
 update_bot.sh
 restart_bot.sh
 nohup.out
