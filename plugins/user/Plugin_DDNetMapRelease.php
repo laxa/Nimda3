@@ -22,17 +22,26 @@ class Plugin_DDNetMapRelease extends Plugin
 	  $array = array();
 	  $regex = '#(\d{4}-\d{2}-\d{2} \d{2}:\d{2}).+href="(\/ranks\/(moderate|novice|solo|brutal|oldschool)\/\#map-[^"]+)"><span title[^>]+>([^<]+)(.+mappers[^>]+>([^<]+))?#';
 	  preg_match_all($regex, $page, $array);
-	  for ($i = 0; $i < count($array[1]); $i++)
+	  for ($i = 0; $i < sizeof($array[1]); $i++)
 	    {
 	      if (strtotime($this->last) >= strtotime($array[1][$i])) break;
 	      $released = $array[1][$i];
-	      $difficulty = $array[3][$i];
+	      $difficulty = ucfirst($array[3][$i]);
 	      $map = html_entity_decode($array[4][$i]);
-	      if (strlen($array[6][$i]) === 0)
-		$mapper = "Unknown";
+	      $mapperArray = array();
+	      preg_match_all('#mappers\/[^>]+>([^<]+)#', $array[5][$i], $mapperArray);
+	      $mapper = '';
+	      for ($ii = 0; $ii < sizeof($mapperArray[1]); $ii++)
+		{
+		  $tmp = html_entity_decode($mapperArray[1][$ii]);
+		  $mapper .= "\x02$tmp\x02";
+		  if ($ii + 1 != sizeof($mapperArray[1]))
+		    $mapper .= ' & ';
+		}
+	      if (strlen($mapper === 0))
+		$format = "\x02$map\x02 just released on $difficulty at $released";
 	      else
-		$mapper = html_entity_decode($array[6][$i]);
-	      $format = "\x02$map\x02 by \x02$mapper\x02 just released on $difficulty at $released";
+		$format = "\x02$map\x02 by $mapper just released on $difficulty at $released";
 	      $this->sendToEnabledChannels($format);
 	    }
 	  $this->last = $array[1][0];
