@@ -9,7 +9,7 @@ class CorePlugin_Config extends Plugin {
 	public $helpText = "Let's you configure the plugin for your channel / yourself (in query). To set channel configuration you have to be an operator in the channel";
 	
 	function isTriggered() {
-		if($this->Channel !== false && $this->User->mode != '@' && $this->User->mode != '~') {
+		if($this->Channel !== false && $this->User->mode != '@' && $this->User->mode != '~' && $this->User->mode != '%') {
 			$this->reply('You have to be an operator in this channel to use !config.');
 			return;
 		}
