@@ -52,14 +52,14 @@ class Plugin_DDNetStatus extends Plugin
 	    {
 	      if (!$this->mainserverdown)
 		{
-		  $this->sendToEnabledChannels("\x02DDNet FRA\x02 went down!");
+		  $this->sendToEnabledChannels("\x02Website\x02 went down!");
 		  $this->mainserverdown = true;
 		}
 	      return;
 	    }
 	  if ($this->mainserverdown)
 	    {	      
-	      $this->sendToEnabledChannels("\x02DDNet FRA\x02 went back online!");
+	      $this->sendToEnabledChannels("\x02Website\x02 went back online!");
 	      $this->mainserverdown = false;
 	      return;
 	    }
