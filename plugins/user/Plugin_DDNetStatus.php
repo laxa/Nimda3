@@ -58,7 +58,7 @@ class Plugin_DDNetStatus extends Plugin
 	      return;
 	    }
 	  if ($this->mainserverdown)
-	    {	      
+	    {
 	      $this->sendToEnabledChannels("\x02Website\x02 went back online!");
 	      $this->mainserverdown = false;
 	      return;
