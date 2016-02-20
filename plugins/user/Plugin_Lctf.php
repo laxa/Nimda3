@@ -7,7 +7,7 @@ class Plugin_Lctf extends Plugin
     public $interval = 1800;
     public $enabledByDefault = false;
     private $json;
-    private $teamToWatch = array('0x90r00t', 'khack40', 'pony7', 'LSE');
+    private $teamToWatch = array('0x90r00t', 'khack40', 'pony7', 'LSE', 'securimag');
     private $pos = array();
 
     public function isTriggered()
