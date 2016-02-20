@@ -37,7 +37,7 @@ class Plugin_Lctf extends Plugin
                 if ($data['score'] !== $this->pos[$team]['score']
                     || $data['rank'] !== $this->pos[$team]['rank'])
                 {
-                    $this->pos[$team] = array('pos' => $data['rank'], 'score' => $data['score']);
+                    $this->pos[$team] = array('rank' => $data['rank'], 'score' => $data['score']);
                 }
             }
         }
@@ -66,7 +66,7 @@ class Plugin_Lctf extends Plugin
                 {
                     $output = sprintf("\x0303$team\x03 is now \x0304%s\x03 with \x0302%d\x03 points", $data['rank'], $data['score']);
                     $this->sendToEnabledChannels($output);
-                    $this->pos[$team] = array('pos' => $data['rank'], 'score' => $data['score']);
+                    $this->pos[$team] = array('rank' => $data['rank'], 'score' => $data['score']);
                 }
             }
         }
