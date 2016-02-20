@@ -4,10 +4,10 @@ class Plugin_Lctf extends Plugin
 {
     public $triggers = array('!lctf');
     public $helpText = 'Display our stats or team\'s rank if given';
-    public $interval = 60;
+    public $interval = 300;
     public $enabledByDefault = false;
     private $json;
-    private $teamToWatch = array('0x90r00t', 'khack40');
+    private $teamToWatch = array('0x90r00t', 'khack40', 'pony7');
     private $pos = array();
 
     public function isTriggered()
@@ -23,7 +23,7 @@ class Plugin_Lctf extends Plugin
             }
             else
             {
-                $output = sprintf("\x0303$team\x03 is \x0304%s\x03 with \x0302%d\x03 points", $data['rank'], $data['score']);
+                $output = sprintf("\x0303$team\x03 is \x0304%s\x03 with \x0310%d\x03 points", $data['rank'], $data['score']);
             }
             $this->reply($output);
         }
@@ -32,7 +32,7 @@ class Plugin_Lctf extends Plugin
             foreach ($this->teamToWatch as $team)
             {
                 $data = $this->getRank($team);
-                $output = sprintf("\x0303$team\x03 is now \x0304%s\x03 with \x0302%d\x03 points", $data['rank'], $data['score']);
+                $output = sprintf("\x0303$team\x03 is now \x0304%s\x03 with \x0310%d\x03 points", $data['rank'], $data['score']);
                 $this->reply($output);
                 if ($data['score'] !== $this->pos[$team]['score']
                     || $data['rank'] !== $this->pos[$team]['rank'])
@@ -64,7 +64,7 @@ class Plugin_Lctf extends Plugin
                 if ($data['score'] !== $this->pos[$team]['score']
                     || $data['rank'] !== $this->pos[$team]['rank'])
                 {
-                    $output = sprintf("\x0303$team\x03 is now \x0304%s\x03 with \x0302%d\x03 points", $data['rank'], $data['score']);
+                    $output = sprintf("\x0303$team\x03 is now \x0304%s\x03 with \x0310%d\x03 points", $data['rank'], $data['score']);
                     $this->sendToEnabledChannels($output);
                     $this->pos[$team] = array('rank' => $data['rank'], 'score' => $data['score']);
                 }
@@ -89,9 +89,7 @@ class Plugin_Lctf extends Plugin
     private function getRank($team)
     {
         $size = count($this->json);
-        // reenable this later when ctf has begun
-        /* for ($i = 0; $i < $size && $this->json[$i]['score'] > 0; $i++) */
-        for ($i = 0; $i < $size; $i++)
+        for ($i = 0; $i < $size && $this->json[$i]['score'] > 0; $i++)
         {
             if ($this->json[$i]['team'] == $team)
             {
