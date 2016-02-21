@@ -7,7 +7,7 @@ class Plugin_Lctf extends Plugin
     public $interval = 1800;
     public $enabledByDefault = false;
     private $json;
-    private $teamToWatch = array('0x90r00t', 'khack40', 'pony7', 'LSE', 'securimag');
+    private $teamToWatch = array('0x90r00t', 'khack40', 'LSE', 'securimag', 'Hexpresso');
     private $pos = array();
 
     public function isTriggered()
@@ -77,13 +77,6 @@ class Plugin_Lctf extends Plugin
         $data = libHTTP::GET('https://ctf.internetwache.org/scoreboard.json');
         $this->json = json_decode($data, true);
         $this->json = $this->json['standings'];
-        // sorting array
-        usort($this->json, array('Plugin_Lctf', 'sortTeams'));
-    }
-
-    private static function sortTeams($a, $b)
-    {
-        return $a['score'] > $b['score'] ? -1 : 1;
     }
 
     private function getRank($team)
