@@ -17,7 +17,7 @@ class Plugin_DDNetMapRelease extends Plugin
 
 	function onInterval()
 	{
-	  $page = libHTTP::GET('http://ddnet.tw/releases/');
+	  $page = file_get_contents('http://ddnet.tw/releases/');
 	  if ($page === FALSE || strlen($page) == 0) return;
 	  $array = array();
 	  $regex = '#(\d{4}-\d{2}-\d{2} \d{2}:\d{2}).+href="(\/ranks\/(moderate|novice|solo|brutal|oldschool|ddmax|race)\/\#map-[^"]+)"><span title[^>]+>([^<]+)(.+mappers[^>]+>([^<]+))?#';

@@ -6,7 +6,7 @@ class Plugin_TwPlayerStatus extends Plugin
   public $helpText = 'Display the status of a player on Teeworlds.';
   public $usage = '<player>';
   public $helpCategory = 'Teeworlds';
-  
+
   function isTriggered()
   {
     if (!isset($this->data['text']))
@@ -43,7 +43,7 @@ class Plugin_TwPlayerStatus extends Plugin
       {
 	$this->reply(sprintf("No \x02%s\x02 found online.", $player));
       }
-  }	
+  }
 }
 
 ?>
