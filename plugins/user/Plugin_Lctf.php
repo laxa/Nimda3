@@ -4,7 +4,7 @@ class Plugin_Lctf extends Plugin
 {
     public $triggers = array('!lctf');
     public $helpText = 'Display our stats or team\'s rank if given';
-    public $interval = 1800;
+    /* public $interval = 1800; */
     public $enabledByDefault = false;
     private $json;
     private $teamToWatch = array('0x90r00t', 'khack40', 'LSE', 'securimag', 'Hexpresso');

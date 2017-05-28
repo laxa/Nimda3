@@ -53,13 +53,13 @@ final class IRC_Server {
 		$c = &$this->connectCooldown;
 		if($c['last_connect'] + $c['cooldown'] > time()) return false;
 		
-		$this->socket = @stream_socket_client(
+		$this->socket = stream_socket_client(
 			($this->isSSL?'ssl://':'').$this->host.':'.$this->port,
 			$errno,
 			$errstr,
 			5,
 			STREAM_CLIENT_CONNECT,
-			stream_context_create(array('socket' => array('bindto' => $this->bind)))
+			stream_context_create(array('socket' => array('bindto' => $this->bind), 'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)))
 		);
 		
 		if(!$this->socket) {
