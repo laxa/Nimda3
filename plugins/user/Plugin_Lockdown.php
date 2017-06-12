@@ -17,8 +17,8 @@ class Plugin_Lockdown extends Plugin {
 			$this->reply('This command only works in a channel.');
 			return;
 		}
-		
-		if($this->User->mode != '@') {
+
+		if($this->User->mode != '@' && $this->User->mode != '~' && $this->User->mode != '&') {
 			$this->reply('You have to be an operator in this channel to use '.$this->data['trigger'].'.');
 			return;
 		}
