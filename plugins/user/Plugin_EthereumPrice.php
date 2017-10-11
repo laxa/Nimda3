@@ -14,7 +14,6 @@ class Plugin_EthereumPrice extends Plugin
                 $this->reply("Error while retrieving ETH data");
                 return;
             }
-        $data = file_get_contents('https://api.kraken.com/0/public/Ticker?pair=ETHEUR');      
         $data = json_decode($data, true);
         if (is_array($data) == false || !isset($data['result']['XETHZEUR']['a'][0]))
             {
