@@ -6,3 +6,4 @@ plugins/user/Plugin_Reload.php
 update_bot.sh
 restart_bot.sh
 nohup.out
+nimda.log
