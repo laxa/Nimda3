@@ -6,7 +6,7 @@ class Plugin_KrakenPrice extends Plugin
 	public $interval = 120;
 	public $helpText = 'Prints kraken price.';
 
-    private $whitelist_cur = array('xbt', 'eth', 'bch', 'etc', 'ltc', 'rep', 'xmr', 'xrp', 'zec');
+    private $whitelist_cur = array('xbt', 'eth', 'bch', 'etc', 'ltc', 'rep', 'xmr', 'xrp', 'zec', 'xrp');
     private $whitelist_real = array('eur', 'usd');
 
 	function isTriggered()
@@ -17,11 +17,12 @@ class Plugin_KrakenPrice extends Plugin
             {
                 $request_data = strtolower($this->data['text']);
                 $split = str_split($request_data, 3);
-                if ($split != FALSE && in_array($split[0], $this->whitelist_cur) &&
-                in_array($split[1], $this->whitelist_real))
+                if ($split != FALSE && in_array($split[0], $this->whitelist_cur))
                     {
                         $request_cur = $split[0];
-                        $request_real = $split[1];
+                        if (isset($split[1]) && strlen($split[1]) > 0 &&
+                        in_array($split[1], $this->whitelist_real))
+                            $request_real = $split[1];
                     }
             }
 
@@ -37,8 +38,6 @@ class Plugin_KrakenPrice extends Plugin
             }
         $data = json_decode($data, true);
         $place_holder = strtoupper('X'.$request_cur.'Z'.$request_real);
-        var_dump($place_holder);
-        var_dump($data);
         if (is_array($data) == false || !isset($data['result'][$place_holder]['c'][0]))
             {
                 $this->reply("Error while parsing data");
