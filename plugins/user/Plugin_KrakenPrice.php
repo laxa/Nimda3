@@ -43,8 +43,11 @@ class Plugin_KrakenPrice extends Plugin
                 $this->reply("Error while parsing data");
                 return;
             }
-        $this->reply(sprintf("%s: %.2f%s", strtoupper($request_cur),
-            $data['result'][$place_holder]['c'][0],
+        $value = (float)$data['result'][$place_holder]['c'][0];
+        $digit = 2;
+        if ($value < (float)1) $digit = 4;
+        $this->reply(sprintf("%s: %.${digit}f%s", strtoupper($request_cur),
+            $value,
             $request_real === 'usd' ? '$' : '€'));
     }
 }
