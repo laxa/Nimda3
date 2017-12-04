@@ -56,7 +56,8 @@ class Plugin_KrakenPrice extends Plugin
                         return;
                     }
                 $data = json_decode($data, true);
-                $place_holder = strtoupper('X'.$request_cur.'Z'.$request_real);
+                if ($request_cur === 'bch') $place_holder = strtoupper($request_cur.$request_real);
+                else $place_holder = strtoupper('X'.$request_cur.'Z'.$request_real);
                 if (is_array($data) == false || !isset($data['result'][$place_holder]['c'][0]))
                     {
                         $this->reply("Error while parsing data");
