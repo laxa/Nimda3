@@ -2,10 +2,10 @@
 
 class Plugin_KrakenPrice extends Plugin
 {
-	public $triggers = array('!kraken', '!kra');
-	public $interval = 120;
+    public $triggers = array('!kraken', '!kra');
+    public $interval = 120;
     public $usage = '';
-	public $helpText = 'Prints kraken price.';
+    public $helpText = 'Prints kraken price.';
 
     private $whitelist_cur = array('xbt', 'eth', 'bch', 'etc', 'ltc', 'rep', 'xmr', 'xrp', 'zec', 'xrp');
     private $whitelist_real = array('eur', 'usd');
@@ -26,8 +26,8 @@ class Plugin_KrakenPrice extends Plugin
         $this->usage .= '>';
     }
 
-	function isTriggered()
-	{
+    function isTriggered()
+    {
         $request_cur = '';
         $request_data = strtolower($this->data['text']);
         /* if no option, default currency is eth */
@@ -47,7 +47,7 @@ class Plugin_KrakenPrice extends Plugin
 
                 $request = $request_cur.$request_real;
                 $context = stream_context_create(array('https' =>
-                    array('timeout' => 2.0)));
+                    array('timeout' => 2.0, 'header' => 'Cache-Control: no-cache\r\n')));
                 $data = file_get_contents("https://api.kraken.com/0/public/Ticker?pair=$request",
                 false, $context);
                 if ($data === false)
