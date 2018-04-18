@@ -12,13 +12,12 @@ class Plugin_KrakenPrice extends Plugin
 
     function onLoad()
     {
-        $this->usage = '[';
         foreach ($this->whitelist_cur as $cur)
             {
                 $this->usage .= $cur . '|';
             }
         $this->usage = rtrim($this->usage, '|');
-        $this->usage .= '] [';
+        $this->usage .= '[';
         foreach ($this->whitelist_real as $real)
             {
                 $this->usage .= $real . '|';
