@@ -33,6 +33,7 @@ class Nimda {
 		$this->initBot();
 		
 		while(true) {
+            pcntl_signal_dispatch();
 			if(empty($this->servers)) {
 				echo 'No servers to read from - Qutting'."\n";
 				break;
